@@ -1,0 +1,174 @@
+create table student (
+    Rollno number(5) primary key,
+    Name varchar2(255) not null,
+    Dob Date not null,
+    Gender varchar2(3) not null,
+    Doa Date not null,
+    Bcode number(10) not null,
+    check(Gender in ('M', 'F', 'T'))
+);
+
+create table branch (
+	Bcode number(10) primary key,
+    Bname varchar2(255) not null,
+    Dno number(5) not null
+);
+
+Alter table student add constraint fk_Bcode
+foreign key(Bcode) references branch(Bcode); 
+
+
+create table Department (
+    Dno number(5) primary key,
+    Dname varchar2(255) not null
+);
+
+create table course (
+	Ccode number(5) primary key,
+    Cname varchar2(255) not null,
+    Credits number(3) not null,
+    Dno number(5) not null,
+    FOREIGN KEY (Dno) references Department (Dno)
+);
+
+
+create table branch_course (
+	Bcode number(10) not null,
+    Ccode number(5) not null,
+    Semester number(2) not null,
+    Foreign Key (Bcode) references Branch(Bcode),
+    Foreign Key (Ccode) references Course(Ccode),
+    Primary Key (Bcode, Ccode)
+);
+
+create table Enrolls (
+	Rollno number(3) not null,
+    Ccode number(5) not null,
+    Sess varchar2(255) check(Sess IN ('APRIL 2013', 'NOV 2013')) not null,
+    Grade char(1) check(Grade IN ('S', 'A', 'B', 'C', 'D', 'E', 'U')) not null,
+    Foreign Key (Ccode) references Course (Ccode),
+    Primary key (Rollno, Sess)
+);
+
+
+
+-- Inserting into branch table
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (1, 'Computer Science', 1);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (2, 'Electrical Engineering', 2);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (3, 'Mechanical Engineering', 1);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (4, 'Chemical Engineering', 1);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (5, 'Microbiology', 2);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (6, 'Information', 1);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (7, 'Botany', 2);
+INSERT INTO branch (Bcode, Bname, Dno) VALUES (8, 'Physics', 2);
+
+
+-- Inserting into Department table
+INSERT INTO Department (Dno, Dname) VALUES (1, 'Engineering');
+INSERT INTO Department (Dno, Dname) VALUES (2, 'Science');
+
+
+-- Inserting into course table
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (101, 'Introduction to Programming', 3, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (102, 'Database Management', 4, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (103, 'Circuit Analysis', 3, 2);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (104, 'Java', 3, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (105, 'Networking and Data Communication', 3, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (106, 'DSA', 3, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (107, 'Computer Architecture', 3, 1);
+INSERT INTO course (Ccode, Cname, Credits, Dno) VALUES (108, 'Python', 3, 1);
+
+
+-- Inserting into branch_course table
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (1, 101, 1);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (2, 102, 2);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (3, 103, 1);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (4, 102, 1);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (5, 106, 2);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (6, 102, 2);
+INSERT INTO branch_course (Bcode, Ccode, Semester) VALUES (7, 102, 1);
+
+
+
+-- Inserting into student table
+INSERT INTO student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (1, 'John Doe', TO_DATE('1998-05-15', 'YYYY-MM-DD'), 'M', TO_DATE('2022-09-01', 'YYYY-MM-DD'), 1);
+INSERT INTO student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (2, 'Jane Smith', TO_DATE('1999-08-20', 'YYYY-MM-DD'), 'F', TO_DATE('2022-09-01', 'YYYY-MM-DD'), 2);
+INSERT INTO student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (3, 'Tanhi Seth', TO_DATE('1999-09-19', 'YYYY-MM-DD'), 'F', TO_DATE('2022-10-01', 'YYYY-MM-DD'), 2);
+INSERT INTO student (Rollno, Name, Dob, Gender, Doa, Bcode) VALUES (4, 'Baibhav Mitra', TO_DATE('1999-07-11', 'YYYY-MM-DD'), 'F', TO_DATE('2022-08-01', 'YYYY-MM-DD'), 5);
+
+
+-- Inserting into Enrolls table
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (1, 101, 'APRIL 2013', 'A');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (1, 102, 'NOV 2013', 'B');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (2, 103, 'APRIL 2013', 'A');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (3, 104, 'APRIL 2013', 'S');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (3, 102, 'NOV 2013', 'S');
+INSERT INTO Enrolls (Rollno, Ccode, Sess, Grade) VALUES (4, 101, 'APRIL 2013', 'U');
+
+
+
+
+select * from student;
+select * from branch;
+select * from course;
+select * from department;
+select * from branch_course;
+select * from enrolls;
+
+-- (A)
+SELECT D.Dno, D.Dname, COUNT(B.Bcode) AS BranchCount FROM Department D
+JOIN branch B ON D.Dno = B.Dno GROUP BY D.Dno, D.Dname HAVING COUNT(B.Bcode) > 3;
+
+-- or
+Select * from Department D where D.Dno In(Select B.Dno from Branch b Group By B.Dno Having Count(B.Dno) > 3);
+
+
+-- SELECT D.Dno, D.Dname, COUNT(B.Bcode) AS BranchCount, B.Bcode, B.Bname 
+-- FROM Department D JOIN branch B ON D.Dno = B.Dno GROUP BY D.Dno, D.Dname, B.Bcode, B.Bname;
+
+
+-- (B)
+SELECT D.Dno, D.Dname, COUNT(C.Ccode) AS CourseCount FROM Department D
+JOIN course C ON D.Dno = C.Dno GROUP BY D.Dno, D.Dname HAVING COUNT(C.Ccode) > 6;
+
+-- or
+Select * From Department D where D.Dno in (Select C.Dno from Course C Group By C.Dno Having Count(C.Ccode) > 6);
+
+
+-- SELECT D.Dno, D.Dname, C.* FROM Department D
+-- JOIN course C ON D.Dno = C.Dno;
+
+
+-- (C)
+Select C.Ccode, C.Cname, C.Credits, C.Dno, COUNT(bc.Bcode) as BranchCount from Course C Join branch_course bc 
+on C.Ccode = bc.Ccode Group By C.Ccode, C.Cname, C.Credits, C.Dno HAVING COUNT(bc.Bcode) > 3;
+
+-- or
+Select * from course C where C.Ccode in (Select BC.Ccode from branch_course BC Group By BC.Ccode Having Count(BC.Bcode) > 3);
+
+
+-- SELECT BC.Ccode
+-- FROM branch_course BC
+-- GROUP BY BC.Ccode
+-- HAVING COUNT(DISTINCT BC.Bcode) > 3;
+
+-- SELECT DISTINCT Ccode FROM branch_course;
+
+
+SELECT Ccode, COUNT(DISTINCT Bcode) AS BranchCount
+FROM branch_course
+GROUP BY Ccode
+ORDER BY BranchCount DESC;
+
+
+
+-- (D)
+Select * from Student S where S.rollno in (Select E.rollno from Enrolls E where E.Grade = 'S' Group By E.rollno Having Count(E.Grade) >= 2);
+
+-- Select * from Student S where S.rollno in (Select E.rollno from Enrolls E where E.Grade = 'U' Group By E.rollno);
+
+-- (E)
+Create VIEW STUDATA as Select E.rollno, S.name, Count(E.Ccode) as CC From Student S, Enrolls E 
+where E.rollno = S.rollno and E.grade != 'U' Group By E.rollno, S.name;
+
+select * from STUDATA;
